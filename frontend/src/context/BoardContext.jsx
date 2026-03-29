@@ -34,10 +34,16 @@ export const BoardProvider = ({ children }) => {
     const fetchedLists = listsRes.data;
     setLists(fetchedLists);
     const cardsMap = {};
-    for (const list of fetchedLists) {
-      const cardsRes = await boardService.getCardsByList(list.id);
-      cardsMap[list.id] = cardsRes.data;
-    }
+for (const list of fetchedLists) {
+  const cardsRes = await boardService.getCardsByList(list.id);
+  const cardsWithDetails = await Promise.all(
+    cardsRes.data.map(async (card) => {
+      const detailRes = await boardService.getCardById(card.id);
+      return detailRes.data;
+    })
+  );
+  cardsMap[list.id] = cardsWithDetails;
+}
     setCards(cardsMap);
     setLoading(false);
   };
