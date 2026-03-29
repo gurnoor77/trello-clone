@@ -1,0 +1,66 @@
+.list-column {
+  background: #ebecf0;
+  border-radius: 10px;
+  width: 272px;
+  min-width: 272px;
+  max-height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+.list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  margin-bottom: 4px;
+}
+
+.list-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #172b4d;
+  margin: 0;
+  cursor: pointer;
+  flex: 1;
+}
+
+.list-title-input {
+  font-size: 14px;
+  font-weight: 700;
+  color: #172b4d;
+  border: 2px solid #0079bf;
+  border-radius: 4px;
+  padding: 2px 6px;
+  width: 100%;
+  outline: none;
+}
+
+.list-delete-btn {
+  background: none;
+  border: none;
+  color: #6b778c;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.list-delete-btn:hover {
+  background: rgba(0,0,0,0.1);
+  color: #172b4d;
+}
+
+.cards-container {
+  overflow-y: auto;
+  flex: 1;
+  padding: 4px 0;
+  min-height: 10px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.dragging-over {
+  background: #c3d4e6;
+}

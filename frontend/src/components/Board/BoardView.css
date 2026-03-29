@@ -1,0 +1,22 @@
+.board-view {
+  min-height: 100vh;
+  padding-top: 60px;
+}
+
+.lists-container {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 12px;
+  overflow-x: auto;
+  min-height: calc(100vh - 76px);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: white;
+  font-size: 20px;
+}
