@@ -1,20 +1,34 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { DragDropContext, Droppable } from '@hello-pangea/dnd';
 import { useBoard } from '../../context/BoardContext';
 import ListColumn from '../List/ListColumn';
 import AddList from '../List/AddList';
 import BoardHeader from './BoardHeader';
+import SearchBar from '../UI/SearchBar';
 import './BoardView.css';
 
 const BoardView = () => {
   const { id } = useParams();
   const { currentBoard, lists, cards, loading, fetchBoard,
-          moveCardBetweenLists, setLists, setCards } = useBoard();
+          moveCardBetweenLists, setLists, setCards, members } = useBoard();
+
+  const [search, setSearch]             = useState('');
+  const [filterLabel, setFilterLabel]   = useState('');
+  const [filterMember, setFilterMember] = useState('');
 
   useEffect(() => {
     fetchBoard(id);
   }, [id]);
+
+  const filterCards = (listCards) => {
+    return listCards.filter(card => {
+      const matchSearch = search
+        ? card.title.toLowerCase().includes(search.toLowerCase())
+        : true;
+      return matchSearch;
+    });
+  };
 
   const onDragEnd = async (result) => {
     const { source, destination, type } = result;
@@ -52,6 +66,12 @@ const BoardView = () => {
   return (
     <div className="board-view" style={{ background: currentBoard.background }}>
       <BoardHeader board={currentBoard} />
+      <SearchBar
+        search={search} setSearch={setSearch}
+        filterLabel={filterLabel} setFilterLabel={setFilterLabel}
+        filterMember={filterMember} setFilterMember={setFilterMember}
+        members={members}
+      />
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="all-lists" direction="horizontal" type="LIST">
           {(provided) => (
@@ -59,8 +79,12 @@ const BoardView = () => {
               ref={provided.innerRef}
               {...provided.droppableProps}>
               {lists.map((list, index) => (
-                <ListColumn key={list.id} list={list} index={index}
-                  cards={cards[list.id] || []} />
+                <ListColumn
+                  key={list.id}
+                  list={list}
+                  index={index}
+                  cards={filterCards(cards[list.id] || [])}
+                />
               ))}
               {provided.placeholder}
               <AddList boardId={parseInt(id)} />
