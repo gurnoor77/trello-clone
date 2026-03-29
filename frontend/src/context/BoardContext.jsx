@@ -48,8 +48,8 @@ for (const list of fetchedLists) {
     setLoading(false);
   };
 
-  const addBoard = async (title) => {
-    const res = await boardService.createBoard({ title });
+  const addBoard = async (title, background) => {
+    const res = await boardService.createBoard({ title, background });
     setBoards([...boards, res.data]);
     return res.data;
   };

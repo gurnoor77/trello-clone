@@ -64,3 +64,9 @@
 .dragging-over {
   background: #c3d4e6;
 }
+@media (max-width: 480px) {
+  .list-column {
+    width: 240px;
+    min-width: 240px;
+  }
+}
