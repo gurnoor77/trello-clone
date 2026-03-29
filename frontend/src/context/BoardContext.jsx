@@ -17,8 +17,10 @@ export const BoardProvider = ({ children }) => {
   }, []);
 
   const fetchBoards = async () => {
+    setLoading(true);
     const res = await boardService.getBoards();
     setBoards(res.data);
+    setLoading(false);
   };
 
   const fetchMembers = async () => {
