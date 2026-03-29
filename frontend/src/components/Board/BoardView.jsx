@@ -16,17 +16,44 @@ const BoardView = () => {
   const [search, setSearch]             = useState('');
   const [filterLabel, setFilterLabel]   = useState('');
   const [filterMember, setFilterMember] = useState('');
+  const [filterDue, setFilterDue]       = useState('');
 
   useEffect(() => {
     fetchBoard(id);
   }, [id]);
 
   const filterCards = (listCards) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const weekLater = new Date(today);
+    weekLater.setDate(today.getDate() + 7);
+
     return listCards.filter(card => {
       const matchSearch = search
         ? card.title.toLowerCase().includes(search.toLowerCase())
         : true;
-      return matchSearch;
+
+      const matchLabel = filterLabel
+        ? card.labels?.some(l => l.color === filterLabel)
+        : true;
+
+      const matchMember = filterMember
+        ? card.members?.some(m => m.id === parseInt(filterMember))
+        : true;
+
+      const matchDue = (() => {
+        if (!filterDue) return true;
+        if (filterDue === 'no_due') return !card.due_date;
+        if (!card.due_date) return false;
+        const due = new Date(card.due_date);
+        due.setHours(0, 0, 0, 0);
+        if (filterDue === 'overdue')   return due < today;
+        if (filterDue === 'due_today') return due.getTime() === today.getTime();
+        if (filterDue === 'due_week')  return due >= today && due <= weekLater;
+        return true;
+      })();
+
+      return matchSearch && matchLabel && matchMember && matchDue;
     });
   };
 
@@ -70,6 +97,7 @@ const BoardView = () => {
         search={search} setSearch={setSearch}
         filterLabel={filterLabel} setFilterLabel={setFilterLabel}
         filterMember={filterMember} setFilterMember={setFilterMember}
+        filterDue={filterDue} setFilterDue={setFilterDue}
         members={members}
       />
       <DragDropContext onDragEnd={onDragEnd}>
