@@ -67,7 +67,7 @@ const CreateBoardModal = ({ onClose, onCreate }) => {
 };
 
 const Home = () => {
-  const { boards, addBoard } = useBoard();
+  const { boards, addBoard, loading } = useBoard();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
 
@@ -81,6 +81,7 @@ const Home = () => {
       <Navbar />
       <div className="home-content">
         <div className="home-section-title">★ Your boards</div>
+        {loading && <p style={{color:'white', fontSize:'14px', marginBottom:'12px'}}>Loading boards...</p>}
         <div className="boards-grid">
           {boards.map((board, i) => (
             <div
