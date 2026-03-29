@@ -61,3 +61,4 @@ Visit `http://localhost:5173`
 - No authentication required — default user is assumed logged in
 - Sample members seeded: Rahul Sharma, Priya Singh, Amit Kumar
 - Sample board with 3 lists and 3 cards seeded on setup
+- Backend is hosted on Render free tier — first load may take 30-50 seconds to wake up the server. Subsequent requests are fast.
